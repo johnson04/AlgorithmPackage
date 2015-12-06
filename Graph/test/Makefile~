@@ -1,0 +1,9 @@
+static: graph.h ugraph.h dgraph.h
+	g++ test_static.cpp -L../lib -lgraph -std=c++11 -o test_static
+
+shared: graph.h ugraph.h dgraph.h
+	g++ test_shared.cpp -L../lib -lgraph -std=c++11 -o test_shared
+	export LD_LIBRARY_PATH=../lib
+
+clean:
+	rm ./test_shared ./test_static
