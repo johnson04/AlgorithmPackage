@@ -30,6 +30,34 @@ void DGraph::addEdge(int v, int w)
     adj_list[v].insert(w); // directed graph, the two end-points are not equivalent
 }
 ////////////////////////////////////////////////////////////////////
+/// \brief DGraph::removeEdge
+/// \param _v
+/// \param _w
+/* * *
+ * remove the edge pointing from _v to _w
+ * * */
+void DGraph::removeEdge(int _v, int _w)
+{
+    adj_list[_v].erase(_w);
+}
+////////////////////////////////////////////////////////////////////
+/// \brief DGraph::removeVertex
+/// \param _v
+/* * *
+ * remove the vertex _v and all edges pointing from _v and to _v
+ * * */
+void DGraph::removeVertex(int _v)
+{
+    adj_list[_v].clear(); // remove all edges pointing from _v
+    adj_list.erase(_v);   // remove the vertex _v
+    for (auto w = adj_list.begin(); w != adj_list.end(); w++)
+    {
+        if ((*w).second.find(_v) != (*w).second.end())
+            (*w).second.erase(_v);
+    }
+}
+
+////////////////////////////////////////////////////////////////////
 /// \brief DGraph::reverse
 ///
 /* * *

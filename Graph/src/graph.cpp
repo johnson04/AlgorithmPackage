@@ -12,6 +12,7 @@ Graph::Graph(int _v_num): v_num(_v_num)
     for (int v = 0; v < v_num; v++)
     {
         adj_list[v] = std::set<int>();
+        alias[v]    = std::to_string(v);
     }
 }
 ////////////////////////////////////////////////////////////////////
@@ -26,6 +27,7 @@ Graph::Graph(const Graph &_graph):
 {
     if (e_num > 0) adj_list.clear();
     adj_list = _graph.adj_list;
+    alias    = _graph.alias;
 }
 ////////////////////////////////////////////////////////////////////
 /// \brief Graph::operator =
@@ -38,8 +40,9 @@ Graph& Graph::operator=(Graph &_graph)
 {
     if (e_num > 0) adj_list.clear();
     adj_list = _graph.adj_list;
-    v_num = _graph.v_num;
-    e_num = _graph.e_num;
+    alias    = _graph.alias;
+    v_num    = _graph.v_num;
+    e_num    = _graph.e_num;
     return *this;
 }
 ////////////////////////////////////////////////////////////////////
@@ -68,6 +71,17 @@ int Graph::edgeNumber() const
     return e_num;
 }
 ////////////////////////////////////////////////////////////////////
+/// \brief Graph::inGraph
+/// \param _v
+/// \return
+/* * *
+ * determine if the given vertex _v is in the graph or not
+ * * */
+bool Graph::inGraph(int _v) const
+{
+    return (adj_list.find(_v) != adj_list.end());
+}
+////////////////////////////////////////////////////////////////////
 /// \brief Graph::adjacentTo
 /// \param v
 /// \return
@@ -77,6 +91,18 @@ int Graph::edgeNumber() const
 std::set<int> Graph::adjacentTo(int v)
 {
     return adj_list[v];
+}
+////////////////////////////////////////////////////////////////////
+/// \brief Graph::addVertex
+/// \param _v
+/* * *
+ * check if the vertex _v is in the graph, if it is not in the graph
+ * then add it into the graph, otherwise nothing is done
+ * * */
+void Graph::addVertex(int _v)
+{
+    if (adj_list.find(_v) == adj_list.end())
+        adj_list[_v] = std::set<int>();
 }
 ////////////////////////////////////////////////////////////////////
 /// \brief Graph::toString

@@ -26,7 +26,10 @@ public:
     DGraph& operator=(DGraph&); // copy operator
     virtual ~DGraph(); // virtual destructor
 
-    void addEdge(int, int); // add edge v->w to this graph
+    void addEdge(int, int);    // add edge v->w to this graph
+    void removeEdge(int, int); // remove edge v->w from this graph
+    void removeVertex(int);    // remove vertex _v from this graph
+
     void reverse(); // reverse of this digraph: all edges reverse their directions
 };
 

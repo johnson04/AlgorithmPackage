@@ -20,12 +20,15 @@
 class UGraph:public Graph
 {
 public:
+    UGraph();
     UGraph(int); // create a V-vertex graph with no edges
-    UGraph(UGraph&); // copy constructor
-    UGraph& operator=(UGraph&); // copy operator
+    UGraph(const UGraph&); // copy constructor
+    UGraph& operator=(const UGraph&); // copy operator
     virtual ~UGraph(); // virtual destructor
 
     void addEdge(int, int); // add edge v-w to this graph
+    void removeEdge(int, int); // remove edge v-w from this graph
+    void removeVertex(int); // remove vertex _v from this graph
 };
 
 #endif // UGRAPH_H
