@@ -2,6 +2,9 @@
 #define SEARCH_H
 
 #include <string>
+#include <deque>
+#include <stack>
+#include <queue>
 #include <map>
 
 #include "graph.h"
@@ -14,8 +17,8 @@ struct Path;
 class Search
 {
     Graph *graph;  // pointer to the graph to be processed
-    typedef enum methodID {DFS, BFS} mid; // for clients to choose which search method to use
-    typedef enum implStyle {ITR, REC} mstyle; // for clients to choose which implementation style
+    typedef enum methodID {__DFS, __BFS} mid; // for clients to choose which search method to use
+    typedef enum implStyle {__ITR, __REC} mstyle; // for clients to choose which implementation style
                                               // (ITR: iteration; REC: recursion) to use
     int *edgeTo; // array of vertices used for tracking the search tree
 public:
@@ -46,13 +49,13 @@ private:
 
     std::map<int, bool> marked; // if a vertex _v is connected to source, then marked[v] = true
 
-    void dfs(int, mstyle);
-    void dfs_rec(int);
-    void dfs_itr(int);
+    void DFS(int, mstyle);
+    void dfsRec(int);
+    void dfsItr(int);
 
-    void bfs(int, mstyle);
-    void bfs_rec(int);
-    void bfs_itr(int);
+    void BFS(int, mstyle);
+    void bfsRec(int);
+    void bfsItr(int);
 
     bool directed;
     int  source;   // vertex of the graph currently under consideration

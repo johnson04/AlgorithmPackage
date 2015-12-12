@@ -1,4 +1,5 @@
 #include "search.h"
+#include <iostream>
 ////////////////////////////////////////////////////////////////////
 /// \brief The Path struct
 ///
@@ -25,7 +26,10 @@ Search::Search(DGraph *_dg, int _s):
     head = new Path(source);
     directed = true;
     edgeTo = new int[graph->v_num];
-    dfs(source, REC);
+//    DFS(source, __REC);
+//    DFS(source, __ITR);
+//    BFS(source, __ITR);
+    BFS(source, __REC);
 }
 ////////////////////////////////////////////////////////////////////
 /// \brief Search::Search
@@ -40,7 +44,10 @@ Search::Search(UGraph *_ug, int _s):
     head = new Path(source);
     directed = false;
     edgeTo = new int[graph->v_num];
-    dfs(source, REC);
+//    DFS(source, __REC);
+//    DFS(source, __ITR);
+//    BFS(source, __ITR);
+    BFS(source, __REC);
 }
 ////////////////////////////////////////////////////////////////////
 /// \brief Search::~Search
@@ -117,18 +124,55 @@ std::string Search::pathToString(Path *head)
     return pathStr;
 }
 ////////////////////////////////////////////////////////////////////
-void Search::dfs(int _v, mstyle mst = REC)
+/// \brief Search::DFS
+/// \param _v
+/// \param mst
+/* * *
+ * DFS: interface to implementations of Depth First Search
+ *      depending on the input mst (implementation style),
+ *      DFS can be implemented with either recursion (mst = __REC)
+ *      or iteration (mst = __ITR).
+ * * */
+void Search::DFS(int _v, mstyle mst = __REC)
 {
-    if (mst==REC) dfs_rec(_v);
-    else          dfs_itr(_v);
+    if (mst==__REC)       dfsRec(_v);
+    else /*mst == __ITR*/ dfsItr(_v);
 }
 ////////////////////////////////////////////////////////////////////
-void Search::dfs_itr(int _v)
-//TODO:
+/// \brief Search::dfsItr
+/// \param _v
+/* * *
+ * Depth First Search for paths from vertex _v to all vertices
+ * connected to it, and save the path information in the array:
+ * edgeTo[] and this member function implements DFS with iterations.
+ * * */
+void Search::dfsItr(int _v)
 {
+    std::stack<int> dfs_stack;
+    dfs_stack.push(_v);
+    while (!dfs_stack.empty())
+    {
+        int v = dfs_stack.top();
+        dfs_stack.pop();
+        if (!marked[v])
+        {
+            marked[v] = true;
+            edgeTo[v] = _v; _v = v;
+            for (auto w = graph->adj_list[_v].begin();
+                 w != graph->adj_list[_v].end(); w++)
+                dfs_stack.push(*w);
+        }
+    }
 }
 ////////////////////////////////////////////////////////////////////
-void Search::dfs_rec(int _v)
+/// \brief Search::dfsRec
+/// \param _v
+/* * *
+ * Depth First Search for paths from vertex _v to all vertices
+ * connected to it, and save the path information in the array:
+ * edgeTo[] and this member function implements DFS with recursions.
+ * * */
+void Search::dfsRec(int _v)
 {
     marked[_v] = true;
     for (auto w = graph->adj_list[_v].begin();
@@ -137,24 +181,82 @@ void Search::dfs_rec(int _v)
         if (!marked[*w])
         {
             edgeTo[*w] = _v;
-            dfs_rec(*w);
+            dfsRec(*w);
         }
     }
 }
 ////////////////////////////////////////////////////////////////////
-void Search::bfs(int _v, mstyle mst=ITR)
+/// \brief Search::BFS
+/// \param _v
+/// \param mst
+/* * *
+ * BFS: interface to implementations of Bredth First Search
+ *      depending on the input mst (implementation style),
+ *      BFS can be implemented with either recursion (mst = __REC)
+ *      or iteration (mst = __ITR).
+ * * */
+void Search::BFS(int _v, mstyle mst=__ITR)
 {
-    if (mst==ITR) bfs_itr(_v);
-    else          bfs_rec(_v);
+    if (mst == __ITR)     bfsItr(_v);
+    else /* mst==__ITR */ bfsRec(_v);
 }
 ////////////////////////////////////////////////////////////////////
-void Search::bfs_itr(int _v)
-// TODO:
+/// \brief Search::bfsItr
+/// \param _v
+/* * *
+ * Bredth First Search for paths from vertex _v to all vertices
+ * connected to it, and save the path information in the array:
+ * edgeTo[] and this member function implements BFS with iterations.
+ * * */
+void Search::bfsItr(int _v)
 {
+    std::queue<int> bfs_queue;
+    bfs_queue.push(_v);
+    marked[_v] = true;
+    while (!bfs_queue.empty())
+    {
+        int v = bfs_queue.front();
+        bfs_queue.pop();
+        for (auto w = graph->adj_list[v].begin();
+             w != graph->adj_list[v].end(); w++)
+        {
+            if (!marked[*w])
+            {
+                bfs_queue.push(*w);
+                edgeTo[*w] = v;
+                marked[*w] = true;
+            }
+        }
+    }
 }
 ////////////////////////////////////////////////////////////////////
-void Search::bfs_rec(int _v)
-// TODO:
+/// \brief Search::bfsRec
+/// \param _v
+/* * *
+ * Bredth First Search for paths from vertex _v to all vertices
+ * connected to it, and save the path information in the array:
+ * edgeTo[] and this member function implements BFS with recursions.
+ * * */
+void Search::bfsRec(int _v)
 {
+    std::stack<int> level;
+
+    for (auto w = graph->adj_list[_v].begin();
+         w != graph->adj_list[_v].end(); w++)
+    {
+        if (!marked[*w])
+        {
+            marked[*w] = true;
+            edgeTo[*w] = _v;
+            level.push(*w);
+        }
+    }
+    int v;
+    while (!level.empty())
+    {
+        v = level.top();
+        level.pop();
+        bfsRec(v);
+    }
 }
 ////////////////////////////////////////////////////////////////////
