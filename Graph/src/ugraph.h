@@ -19,6 +19,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 class UGraph:public Graph
 {
+    friend class Search;
 public:
     UGraph();
     UGraph(int); // create a V-vertex graph with no edges

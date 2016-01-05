@@ -11,7 +11,6 @@
 #include "ugraph.h"
 #include "dgraph.h"
 
-//namespace Search{
 struct Path;
 
 class Search
@@ -64,5 +63,4 @@ private:
                 // to any given vertex, provided the path exists.
 };
 
-//} // namespace Search
 #endif // SEARCH_H

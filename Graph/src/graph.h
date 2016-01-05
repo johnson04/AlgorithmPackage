@@ -16,6 +16,7 @@
 
 class Graph
 {
+    friend class Search;
 public:
     Graph(int); // create a v_num-vertex digraph with no edges
     Graph(const Graph&); // copy constructor
@@ -36,7 +37,11 @@ public:
                                            // as a result, all edges connecting
                                            // the vertex v are removed too
 
-//protected:
+    int getVNum() const;        // return number of vertices
+    int getENum() const;        // return number of edges
+    std::unordered_map<int, std::set<int> > getGRep() const; // return adj_list
+
+protected:
     int v_num; // number of vertices
     int e_num; // number of edges
 

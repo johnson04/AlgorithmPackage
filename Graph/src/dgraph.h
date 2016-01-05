@@ -20,6 +20,7 @@
 
 class DGraph:public Graph
 {
+    friend class Search;
 public:
     DGraph(int); // create a v_num-vertex digraph with no edges
     DGraph(const DGraph&); // copy constructor

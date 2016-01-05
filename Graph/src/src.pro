@@ -8,11 +8,13 @@ SOURCES += main.cpp \
     ugraph.cpp \
     search.cpp \
     dgraph.cpp \
-    graph.cpp
+    graph.cpp \
+    unionfind.cpp
 
 HEADERS += \
     ugraph.h \
     search.h \
     dgraph.h \
-    graph.h
+    graph.h \
+    unionfind.h
 
